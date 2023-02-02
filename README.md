@@ -1,38 +1,70 @@
-# create-svelte
+# Sveltils
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Handy utilities for Svelte, including:
+- `tooltip` action + `Tooltip` component
+- `Confirm` component (with nice API for creating confirm dialogs)
+- `Toast` component (with nice API for creating toast notifications)
+- Actions for handling clickoutside, enter, escape, and more fun like `mouseglow`!
+- Transitions, such as `growShrink`, `typewriter`, `circle` and more.
+- Convenient handlers for various events, like `keydown` to handle keyboard shortcuts.
+... and more!
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Installation
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npm install sveltils
+# or your favorite package manager
 ```
 
-## Building
+## Usage
 
-To create a production version of your app:
+```svelte
+<script>
+  import { tooltip, toast, mouseglow } from 'sveltils/tooltip';
+  import { handleKeydown, type KeyboardShortcut } from 'sveltils/handlers';
 
-```bash
-npm run build
+  const SHORTCUTS: KeyboardShortcut[] = [
+    {
+        key: "Enter",
+        ctrl: true,
+        condition: something !== null,
+        action: () => toast.error("Oh no!")
+    },
+    {
+        key: "Enter",
+        ctrl: true,
+        condition: something === null,
+        action: () => toast.success("Yay!")
+    }
+  ]
+</script>
+
+<svelte:window on:keydown={(e) => handleKeydown(e, SHORTCUTS)}>
+
+<button 
+    use:mouseglow 
+    use:tooltip="Hello world!" 
+    on:click={() => toast.success('Hello world!')}
+    data-tooltip="Hi" 
+    data-tooltip-position="left"
+>
+    Hover me!
+</button>
 ```
 
-You can preview the production build with `npm run preview`.
+## Documentation
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+See the [documentation](https://sveltils.sby051.live/) for more information.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or PR if you have any ideas or suggestions.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Acknowledgements
+
+- [Svelte](https://svelte.dev/)
+
